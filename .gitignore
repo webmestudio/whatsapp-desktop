@@ -1,0 +1,17 @@
+.idea/*
+.DS_Store
+Thumbs.db
+build/outputs
+build/releases
+build/dist
+npm-debug.log
+node_modules
+electron-*
+*.mo
+.pc
+*.log
+*.substvars
+*.EX
+dummy.tar.bz2
+rpmbuild/
+build/whatsapp-desktop-*

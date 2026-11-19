@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <script type="text/javascript">
+  window.jQuery = window.$ = require('../js/lib/jquery.min.js');
+  window.Hammer = require('../js/lib/hammer.min.js');
+  try {
+    window.app = require('@electron/remote');
+    window._ = (window.app && window.app.getGlobal) ? window.app.getGlobal("_") : function(t) { return t; };
+  } catch (e) {
+    window._ = function(t) { return t; };
+  }
+  if (typeof _ === 'undefined') {
+    window._ = function(t) { return t; };
+  }
+  </script>
+  <link rel="stylesheet" href="../css/settings.css">
+  <script src="../js/views/about.js"></script>
+  <title>About - WhatsApp Desktop</title>
+</head>
+<body>
+  <header>
+    <h4>WhatsApp Desktop</h4>
+  </header>
+  <main class="main-container">
+    <div id="settings-wrapper">
+        <p>Unofficial WhatsApp Desktop Client for Windows, OSX, and Linux. Built with Electron.</p>
+        <p style="color:#8696a0; font-size:13px; line-height:1.6;">
+            Aplikasi ini adalah wrapper client untuk WhatsApp Web resmi dengan dukungan Multi-Account Sidebar.
+        </p>
+        <div style="margin-top: 12px; padding: 12px; background: #202c33; border-radius: 8px; border: 1px solid #2a3942;">
+            <p>Versi Aplikasi: <span id="appversion" style="color:#00a884; font-weight:600;"></span></p>
+            <p><span id="appupdates" style="color:#8696a0;"></span></p>
+        </div>
+    </div>
+  </main>
+</body>
+</html>

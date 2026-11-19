@@ -1,0 +1,31 @@
+{
+    "name": "whatsapp-desktop",
+    "version": "0.5.4",
+    "repository": "https://github.com/oOthkOo/whatsapp-desktop.git",
+    "description": "Unofficial WhatsApp Desktop Client for OSX, Linux and Windows. Build with Electron.",
+    "main": "main.js",
+    "scripts": {
+        "start": "electron ./app",
+        "dev": "electron --no-sandbox ./app",
+        "preinstall": "cd app && npm install",
+        "gettext": "xgettext app/*.js -j --omit-header -o app/locale/messages.pot && xgettext app/html/*.html -L JavaScript -j --omit-header -o app/locale/messages.pot",
+        "clean": "./scripts/clean.sh",
+        "build:win": "electron-packager ./app WhatsApp --platform=win32 --arch=x64 --out=build/dist --overwrite --icon=build/assets/win/whatsapp.ico --prune=true",
+        "build:portable": "build-portable.bat",
+        "build:win:sh": "./scripts/build-win-x64.sh",
+        "build:osx": "./scripts/build-darwin-x64.sh",
+        "build:osxm1": "./scripts/build-darwin-arm64.sh",
+        "build:linux": "./scripts/build-linux-x64.sh",
+        "build:linux32": "./scripts/build-linux-x32.sh",
+        "build:linuxarmv7l": "./scripts/build-linux-armv7l.sh",
+        "build:all": "./scripts/build-all.sh"
+    },
+    "devDependencies": {
+        "electron": "^17.4.11",
+        "electron-packager": "15.5.1"
+    },
+    "dependencies": {
+        "process-nextick-args": "^1.0.7",
+        "util-deprecate": "^1.0.2"
+    }
+}

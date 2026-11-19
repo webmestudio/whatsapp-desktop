@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <script type="text/javascript">
+  window.jQuery = window.$ = require('../js/lib/jquery.min.js');
+  window.Hammer = require('../js/lib/hammer.min.js');
+  try {
+    window.app = require('@electron/remote');
+    window._ = (window.app && window.app.getGlobal) ? window.app.getGlobal("_") : function(t) { return t; };
+  } catch (e) {
+    window._ = function(t) { return t; };
+  }
+  if (typeof _ === 'undefined') {
+    window._ = function(t) { return t; };
+  }
+  </script>
+  <link rel="stylesheet" href="../css/settings.css">
+  <script src="../js/views/settings.js"></script>
+  <title>Pengaturan - WhatsApp Desktop</title>
+</head>
+<body>
+  <header>
+    <h4><script> document.write(_("Settings")); </script></h4>
+  </header>
+  <main class="main-container">
+    <div id="settings-wrapper">
+      <p>
+        <input type="checkbox" id="avatars" />
+        <label for="avatars"><script> document.write(_("Hide Avatars")); </script></label>
+      </p>
+      <p>
+        <input type="checkbox" id="previews" />
+        <label for="previews"><script> document.write(_("Hide Message Previews")); </script></label>
+      </p>
+      <p>
+        <input type="checkbox" id="trayicon" />
+        <label for="trayicon"><script> document.write(_("Show Tray Icon")); </script>&nbsp;&nbsp;
+            <small>[Windows/Linux]</small></label>
+      </p>
+      <p>
+        <input type="checkbox" id="startminimized" />
+        <label for="startminimized"><script> document.write(_("Minimize to tray on startup")); </script></label>
+      </p>
+      <p>
+        <input type="checkbox" id="autostart" />
+        <label for="autostart"><script> document.write(_("Auto start on login")); </script>&nbsp;&nbsp;
+            <small>[Windows/Linux]</small></label>
+      </p>
+      <p>
+        <input type="checkbox" id="autoHideMenuBar" />
+        <label for="autoHideMenuBar"><script> document.write(_("Auto hide menu bar")); </script>&nbsp;&nbsp;
+            <small>[Windows/Linux]</small></label>
+      </p>
+      <p>
+        <input type="checkbox" id="disablegpu" />
+        <label for="disablegpu"><script> document.write(_("Disable GPU (restart to take effect)")); </script></label>
+      </p>
+      <p>
+        <input type="checkbox" id="globalshortcut" />
+        <label for="globalshortcut"><script> document.write(_("Enable Hot Keys (CmdOrCtrl + Alt + W, restart to take effect)")); </script></label>
+      </p>
+      <p>
+        <input type="checkbox" id="darkMode" />
+        <label for="darkMode"><script> document.write(_("Dark Mode")); </script></label>
+      </p>
+      <p>
+        <input type="checkbox" id="blurImages" />
+        <label for="blurImages"><script> document.write(_("Blur images and emojis (visible on mouseover)")); </script></label>
+      </p>
+
+      <div class="row">
+        <div class="input-field">
+          <label id="thumb-size_label" for="thumb-size"><script> document.write(_("Thumb Size")); </script> (50-150)</label>
+          <input id="thumb-size" type="number" min="50" max="150" placeholder="100">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="input-field">
+          <label id="fontSize_label" for="fontSize"><script> document.write(_("Text size")); </script></label>
+          <select id="fontSize">
+              <option value="small">Small</option>
+              <option value="normal" selected="selected">Normal</option>
+              <option value="medium">Large</option>
+              <option value="large">X-Large</option>
+          </select>
+        </div>
+      </div>
+
+      <p>
+        <input type="checkbox" id="useProxy" />
+        <label for="useProxy"><script> document.write(_("Use Proxy (Changes in proxy settings require app restart)")); </script></label>
+      </p>
+
+      <div class="row">
+        <div class="input-field">
+          <label id="httpProxy_label" for="httpProxy"><script> document.write(_("Http Proxy")); </script></label>
+          <input id="httpProxy" type="text" placeholder="http://127.0.0.1:8080">
+        </div>
+        <div class="input-field">
+          <label id="httpsProxy_label" for="httpsProxy"><script> document.write(_("Https Proxy")); </script></label>
+          <input id="httpsProxy" type="text" placeholder="Leave blank to use the same">
+        </div>
+      </div>
+
+      <p>
+        <input type="checkbox" id="custombackground_enable" onchange="chooseChatBackground();" />
+        <label for="custombackground_enable"><script> document.write(_("Load custom chat background")); </script></label>
+      </p>
+      <input type="text" id="custombackground_file" readonly="readonly" placeholder="Klik checkbox di atas untuk memilih file gambar..." />
+
+      <div class="row">
+        <div class="input-field">
+          <label id="background_opacity_label" for="background_opacity"><script> document.write(_("Background opacity")); </script> (0-100)</label>
+          <input id="background_opacity" type="number" min="0" max="100" placeholder="100">
+        </div>
+      </div>
+
+      <p>
+        <input type="checkbox" id="customcss_enable" onchange="chooseCustomCSS();" />
+        <label for="customcss_enable"><script> document.write(_("Load custom CSS")); </script></label>
+      </p>
+      <input type="text" id="customcss_file" readonly="readonly" placeholder="Klik checkbox di atas untuk memilih file CSS..." />
+
+      <div class="button-row">
+        <a id="close-button" class="btn"><script> document.write(_("Close")); </script></a>
+        <a id="save-button" class="btn"><script> document.write(_("Save")); </script></a>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
