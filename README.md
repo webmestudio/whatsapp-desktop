@@ -8,6 +8,16 @@
 [![Node](https://img.shields.io/badge/Node-%3E%3D16-green?style=flat-square&logo=node.js)](https://nodejs.org/)
 [![License: GPL-3.0](https://img.shields.io/badge/License-GPL--3.0-orange?style=flat-square)](LICENSE)
 
+<br/>
+
+<p align="center">
+  <a href="screenshots/whatsapp-screen.png">
+    <img src="screenshots/whatsapp-screen.png" alt="WhatsApp Desktop Multi-Account Screenshot" width="850" style="max-width: 100%; border-radius: 8px; box-shadow: 0 4px 14px rgba(0,0,0,0.15);">
+  </a>
+  <br/>
+  <em>Tampilan antarmuka WhatsApp Desktop dengan integrasi Sidebar Multi-Akun di sisi kiri</em>
+</p>
+
 ---
 
 ## 📌 Tentang / About
@@ -129,6 +139,8 @@ npm run dev
 
 ## 📖 Panduan Penggunaan Sidebar Multi-Akun
 
+Sidebar navigasi multi-akun terletak di sebelah kiri antarmuka aplikasi (seperti terlihat pada [tangkapan layar di atas](#whatsapp-desktop)):
+
 ```
  ┌───┐
  │ 🟢│  <-- Logo Aplikasi
@@ -155,7 +167,7 @@ npm run dev
 ## 📜 Lisensi (License)
 
 Proyek ini didistribusikan di bawah lisensi **GNU General Public License v3.0 (GPL-3.0)**.  
-Lihat file [`LICENSE`](file:///c:/Users/recello/Desktop/PROJECT/whatsapp-desktop/LICENSE) untuk rincian selengkapnya.
+Lihat file [LICENSE](LICENSE) untuk rincian selengkapnya.
 
 ---
 
