@@ -1,0 +1,65 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install Root Dependencies
+        run: npm install
+
+      - name: Install App Dependencies
+        run: |
+          cd app
+          npm install
+          cd ..
+
+      - name: Package Windows x64
+        run: |
+          npx electron-packager ./app WhatsApp --platform=win32 --arch=x64 --out=build/dist --overwrite --icon=build/assets/win/whatsapp.ico --prune=true
+
+      - name: Configure Portable Structure
+        shell: pwsh
+        run: |
+          $distDir = "build\dist\WhatsApp-win32-x64"
+          New-Item -ItemType File -Path "$distDir\portable.flag" -Force
+          New-Item -ItemType Directory -Path "$distDir\data" -Force
+          $launcherScript = @"
+          @echo off
+          set ELECTRON_RUN_AS_NODE=
+          cd /d "%~dp0"
+          start "" "WhatsApp.exe" --portable
+          "@
+          Set-Content -Path "$distDir\Buka-WhatsApp.bat" -Value $launcherScript
+
+      - name: Create Portable Zip Package
+        shell: pwsh
+        run: |
+          $tag = "${{ github.ref_name }}"
+          if ([string]::IsNullOrWhiteSpace($tag)) { $tag = "v0.5.4" }
+          $zipName = "WhatsApp-$tag-Windows-Portable-x64.zip"
+          Compress-Archive -Path "build\dist\WhatsApp-win32-x64\*" -DestinationPath $zipName -Force
+          Write-Host "Created archive: $zipName"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: WhatsApp-*-Windows-Portable-x64.zip
+          generate_release_notes: true
