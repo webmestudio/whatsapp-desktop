@@ -23,3 +23,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Tampilan Tema Gelap (*Dark Theme*).
   - Pilihan ukuran font obrolan (*Small, Normal, Large, X-Large*).
   - Dukungan System Tray (*minimize to tray* dan *auto-start* saat Windows menyala).
+
+### Performance & Optimizations (Hemat Resource Laptop)
+- **Hapus Polling Loop DOM**: Menghapus interval pemeriksaan audio 200ms dan observer mutasi subtree body yang sebelumnya membebani CPU.
+- **Throttling Akun Background (`backgroundThrottling: true`)**: Akun yang sedang tidak aktif di sidebar otomatis diturunkan prioritas timer dan animasinya.
+- **Nonaktifkan Spellchecker Chromium**: Mematikan pemeriksaan ejaan bawaan Chromium yang berjalan di background memindai chat.
+- **Optimasi Chromium Flags**: Menambahkan flag `CalculateNativeWinOcclusion` (mengatasi bug CPU loop di Windows 10/11) dan `disable-site-isolation-trials` untuk menekan konsumsi RAM.
+- **Launcher Mode Hemat Resource**: Menambahkan opsi launcher `Buka-WhatsApp-Hemat-Resource.bat` (`--disable-gpu`) untuk laptop dengan kartu grafis terintegrasi (Intel HD).
