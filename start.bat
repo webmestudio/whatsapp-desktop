@@ -16,54 +16,91 @@ where node >nul 2>&1
 if %ERRORLEVEL% neq 0 (
     echo [ERROR] Node.js tidak ditemukan di sistem ini.
     echo Silakan install Node.js terlebih dahulu dari https://nodejs.org/
+    echo.
     pause
     exit /b 1
 )
 
-:: 2. Jika build portable sudah ada, tawarkan pilihan cepat
-if exist "build\dist\WhatsApp-win32-x64\WhatsApp.exe" (
-    echo Ditemukan file build portable:
-    echo  build\dist\WhatsApp-win32-x64\WhatsApp.exe
-    echo.
-    echo Pilih aksi yang ingin dijalankan:
-    echo  [1] Jalankan Portable EXE (WhatsApp.exe - Mode Normal)
-    echo  [2] Jalankan Portable EXE (Mode Hemat Resource Laptop / Disable GPU)
-    echo  [3] Jalankan Development Mode (npm start)
-    echo  [4] Rebuild Portable EXE
-    echo.
-    set /p choice="Masukkan nomor pilihan [1/2/3/4] (tekan Enter untuk 1): "
-    if "!choice!"=="" set choice=1
-
-    if "!choice!"=="1" (
-        echo.
-        echo Membuka WhatsApp Portable...
-        start "" "build\dist\WhatsApp-win32-x64\WhatsApp.exe" --portable
-        exit /b 0
-    )
-    if "!choice!"=="2" (
-        echo.
-        echo Membuka WhatsApp Portable dalam Mode Hemat Resource (Disable GPU)...
-        start "" "build\dist\WhatsApp-win32-x64\WhatsApp.exe" --portable --disable-gpu
-        exit /b 0
-    )
-    if "!choice!"=="4" (
-        call build-portable.bat
-        exit /b 0
-    )
-)
-
-:: 3. Jalankan mode development jika pilihan 2 atau jika belum ada build
-echo.
-echo Memeriksa dependensi project...
+:: 2. Periksa dependensi proyek
 if not exist "node_modules\" (
-    echo Menginstall dependensi root...
+    echo [INFO] Mengunduh dependensi root (ini hanya berjalan sekali)...
     call npm install
+    if !ERRORLEVEL! neq 0 (
+        echo [ERROR] Gagal menginstall dependensi root!
+        pause
+        exit /b 1
+    )
 )
 if not exist "app\node_modules\" (
-    echo Menginstall dependensi app...
+    echo [INFO] Mengunduh dependensi app (ini hanya berjalan sekali)...
     cd app && call npm install && cd ..
+    if !ERRORLEVEL! neq 0 (
+        echo [ERROR] Gagal menginstall dependensi app!
+        pause
+        exit /b 1
+    )
 )
 
+:: 3. Tampilkan Menu Pilihan
 echo.
-echo Memulai WhatsApp Desktop (Development Mode)...
-call npm start
+echo Status File Portable EXE:
+if exist "build\dist\WhatsApp-win32-x64\WhatsApp.exe" (
+    echo  [OK] Build Portable siap: build\dist\WhatsApp-win32-x64\WhatsApp.exe
+) else (
+    echo  [-] Build Portable belum dibuat (akan otomatis jalan via Electron).
+)
+echo.
+echo Pilih mode yang ingin dijalankan:
+echo  [1] Jalankan WhatsApp (Mode Normal)
+echo  [2] Jalankan WhatsApp (Mode Hemat Resource Laptop / Disable GPU)
+echo  [3] Build / Rebuild Portable Windows EXE (build-portable.bat)
+echo  [4] Keluar
+echo.
+set /p choice="Masukkan nomor pilihan [1/2/3/4] (tekan Enter untuk 1): "
+if "!choice!"=="" set choice=1
+
+if "!choice!"=="1" (
+    echo.
+    if exist "build\dist\WhatsApp-win32-x64\WhatsApp.exe" (
+        echo Membuka WhatsApp Portable (Mode Normal)...
+        start "" "build\dist\WhatsApp-win32-x64\WhatsApp.exe" --portable
+    ) else (
+        echo Menjalankan WhatsApp Desktop via Electron (Mode Normal)...
+        call npx electron ./app
+    )
+    goto finish
+)
+
+if "!choice!"=="2" (
+    echo.
+    if exist "build\dist\WhatsApp-win32-x64\WhatsApp.exe" (
+        echo Membuka WhatsApp Portable (Mode Hemat Resource / Disable GPU)...
+        start "" "build\dist\WhatsApp-win32-x64\WhatsApp.exe" --portable --disable-gpu
+    ) else (
+        echo Menjalankan WhatsApp Desktop via Electron (Mode Hemat Resource / Disable GPU)...
+        call npx electron ./app --disable-gpu
+    )
+    goto finish
+)
+
+if "!choice!"=="3" (
+    echo.
+    echo Menjalankan build portable...
+    call build-portable.bat
+    goto finish
+)
+
+if "!choice!"=="4" (
+    exit /b 0
+)
+
+echo [Peringatan] Pilihan tidak valid.
+pause
+exit /b 0
+
+:finish
+if %ERRORLEVEL% neq 0 (
+    echo.
+    echo [INFO] Proses selesai dengan kode: %ERRORLEVEL%
+    pause
+)
