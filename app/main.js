@@ -79,6 +79,13 @@
         app.disableHardwareAcceleration()
     }
 
+    // Performance & Resource Optimizations (RAM & CPU for laptops)
+    app.commandLine.appendSwitch('disable-features', 'CalculateNativeWinOcclusion,SpareRendererForSitePerProcess');
+    app.commandLine.appendSwitch('disable-site-isolation-trials');
+    app.commandLine.appendSwitch('enable-features', 'NetworkServiceInProcess');
+    app.commandLine.appendSwitch('disable-renderer-backgrounding', 'false');
+    app.commandLine.appendSwitch('js-flags', '--max-old-space-size=512');
+
     // Portable mode support: store session & settings next to executable if --portable or portable.flag exists
     const exeDir = process.platform === 'win32' ? require('path').dirname(process.execPath) : null;
     const isPackaged = app.isPackaged || !process.defaultApp;
@@ -533,6 +540,7 @@
                   "nodeIntegration": false,
                   "contextIsolation": true,
                   "spellcheck": false,
+                  "backgroundThrottling": true,
                   "preload": join(__dirname, 'js', 'preload-shell.js')
                 }
             })

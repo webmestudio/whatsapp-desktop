@@ -62,6 +62,13 @@ echo cd /d "%%~dp0"
 echo start "" "WhatsApp.exe" --portable
 ) > "%DIST_DIR%\Buka-WhatsApp.bat"
 
+(
+echo @echo off
+echo set ELECTRON_RUN_AS_NODE=
+echo cd /d "%%~dp0"
+echo start "" "WhatsApp.exe" --portable --disable-gpu
+) > "%DIST_DIR%\Buka-WhatsApp-Hemat-Resource.bat"
+
 echo.
 echo ===================================================
 echo [BERHASIL] Build Portable EXE selesai!

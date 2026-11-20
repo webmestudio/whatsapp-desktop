@@ -223,9 +223,10 @@ class AccountManager {
             webPreferences: {
                 partition: account.partition,
                 preload: path.join(__dirname, 'js', 'injected.js'),
-                spellcheck: true,
+                spellcheck: false,
                 nodeIntegration: false,
-                contextIsolation: false
+                contextIsolation: false,
+                backgroundThrottling: true
             }
         });
 

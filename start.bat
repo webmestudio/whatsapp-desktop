@@ -26,11 +26,12 @@ if exist "build\dist\WhatsApp-win32-x64\WhatsApp.exe" (
     echo  build\dist\WhatsApp-win32-x64\WhatsApp.exe
     echo.
     echo Pilih aksi yang ingin dijalankan:
-    echo  [1] Jalankan Portable EXE (WhatsApp.exe)
-    echo  [2] Jalankan Development Mode (npm start)
-    echo  [3] Rebuild Portable EXE
+    echo  [1] Jalankan Portable EXE (WhatsApp.exe - Mode Normal)
+    echo  [2] Jalankan Portable EXE (Mode Hemat Resource Laptop / Disable GPU)
+    echo  [3] Jalankan Development Mode (npm start)
+    echo  [4] Rebuild Portable EXE
     echo.
-    set /p choice="Masukkan nomor pilihan [1/2/3] (tekan Enter untuk 1): "
+    set /p choice="Masukkan nomor pilihan [1/2/3/4] (tekan Enter untuk 1): "
     if "!choice!"=="" set choice=1
 
     if "!choice!"=="1" (
@@ -39,7 +40,13 @@ if exist "build\dist\WhatsApp-win32-x64\WhatsApp.exe" (
         start "" "build\dist\WhatsApp-win32-x64\WhatsApp.exe" --portable
         exit /b 0
     )
-    if "!choice!"=="3" (
+    if "!choice!"=="2" (
+        echo.
+        echo Membuka WhatsApp Portable dalam Mode Hemat Resource (Disable GPU)...
+        start "" "build\dist\WhatsApp-win32-x64\WhatsApp.exe" --portable --disable-gpu
+        exit /b 0
+    )
+    if "!choice!"=="4" (
         call build-portable.bat
         exit /b 0
     )
